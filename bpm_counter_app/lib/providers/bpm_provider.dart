@@ -31,7 +31,7 @@ class BpmProvider extends ChangeNotifier {
   void _calculateBpm() {
     if (_tapTimestamps.length < 2) {
       _currentBpm = null;
-      _accuracyNote = 'Tap at least twice to calculate BPM';
+      _accuracyNote = null;
       return;
     }
 
@@ -47,13 +47,9 @@ class BpmProvider extends ChangeNotifier {
 
     _currentBpm = calculatedBpm;
     _errorState = null;
-
-    // Update accuracy note
-    if (_tapCount < 5) {
-      _accuracyNote = 'More taps needed for accuracy';
-    } else {
-      _accuracyNote = null;
-    }
+    
+    // Remove accuracy notes altogether
+    _accuracyNote = null;
   }
 
   void reset() {

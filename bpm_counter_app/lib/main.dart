@@ -85,29 +85,80 @@ class BpmCounterHome extends StatelessWidget {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 20),
-        Consumer<BpmProvider>(
-          builder: (context, bpmProvider, child) {
-            return Text(
-              'Tap Count: ${bpmProvider.tapCount}',
-              style: const TextStyle(fontSize: 18),
-            );
-          },
+        SizedBox(
+          height: 80, // Fixed height container for BPM and error messages
+          child: Consumer<BpmProvider>(
+            builder: (context, bpmProvider, child) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Tap Count: ${bpmProvider.tapCount}',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  if (bpmProvider.currentBpm != null) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      'BPM: ${bpmProvider.currentBpm!.toStringAsFixed(1)}',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
+                  if (bpmProvider.errorState != null) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      bpmProvider.errorState!,
+                      style: const TextStyle(fontSize: 16, color: Colors.red),
+                    ),
+                  ],
+                ],
+              );
+            },
+          ),
         ),
         const SizedBox(height: 20),
-        Platform.isIOS
-            ? CupertinoButton(
-                color: Theme.of(context).colorScheme.primary,
-                child: const Text('Tap Here'),
-                onPressed: () {
-                  // Will implement tap action in Step 5
-                },
-              )
-            : ElevatedButton(
-                onPressed: () {
-                  // Will implement tap action in Step 5
-                },
-                child: const Text('Tap Here'),
-              ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(width: 20),
+            Expanded(
+              child: Platform.isIOS
+                  ? CupertinoButton(
+                      color: Theme.of(context).colorScheme.primary,
+                      child: const Text('Tap Here'),
+                      onPressed: () {
+                        context.read<BpmProvider>().recordTap();
+                      },
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        context.read<BpmProvider>().recordTap();
+                      },
+                      child: const Text('Tap Here'),
+                    ),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Platform.isIOS
+                  ? CupertinoButton(
+                      color: Theme.of(context).colorScheme.error,
+                      child: const Text('Reset'),
+                      onPressed: () {
+                        context.read<BpmProvider>().reset();
+                      },
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        context.read<BpmProvider>().reset();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                      ),
+                      child: const Text('Reset'),
+                    ),
+            ),
+            const SizedBox(width: 20),
+          ],
+        ),
       ],
     );
   }

@@ -36,7 +36,6 @@ bpm_counter_app/
     - autoModeStatus: Status message for auto mode
     - audioProcessingDuration: Duration (in seconds) for audio processing
     - errorState: Error messages
-    - accuracyNote: Notes about BPM accuracy
   - Methods:
     - recordTap(): Records a new tap timestamp
     - _calculateBpm(): Calculates BPM based on timestamps with validation
@@ -45,9 +44,15 @@ bpm_counter_app/
     - setAutoModeStatus(): Updates the auto mode status
     - setError(): Sets or clears error messages
 
-### UI Screens (To Be Created)
+### UI Screens (Partially Implemented)
 - `screens/tap_mode_screen.dart`: UI for manual BPM calculation through screen taps
-- `screens/auto_mode_screen.dart`: UI for automatic BPM detection using microphone
+  - Implemented features:
+    - Fixed layout to prevent UI shifts
+    - Platform-specific buttons (CupertinoButton for iOS, ElevatedButton for Android)
+    - BPM display with validation
+    - Reset functionality
+    - Error state display
+- `screens/auto_mode_screen.dart`: UI for automatic BPM detection using microphone (to be implemented)
 
 ### Platform-Specific Code
 - `android/`: Contains Android-specific configurations and native code
@@ -64,10 +69,11 @@ bpm_counter_app/
 - Proper data validation and error handling
 
 ### UI Architecture
-- Screen-based navigation using TabBar (to be implemented)
-- Platform-specific UI components where necessary (to be implemented)
+- Screen-based navigation using TabBar
+- Platform-specific UI components
 - Separation of concerns between UI and business logic
 - Consumer widgets for reactive UI updates
+- Fixed layout containers to prevent UI shifts
 
 ### Native Integration
 - Platform channels for audio processing (to be implemented)
@@ -76,13 +82,13 @@ bpm_counter_app/
 
 ## Data Flow
 
-### Tap Mode
+### Tap Mode (Implemented)
 1. User taps screen → recordTap() is called in BpmProvider
 2. Timestamp is recorded and added to tapTimestamps list
 3. _calculateBpm() analyzes timestamps and updates currentBpm
 4. Consumer widgets in the UI update to reflect new state
 5. Validation ensures BPM values are within 40-200 range
-6. Accuracy feedback provided based on number of taps
+6. Reset functionality clears all state when requested
 
 ### Auto Mode (To Be Implemented)
 1. User selects Auto Mode → permission check
@@ -95,4 +101,5 @@ bpm_counter_app/
 ## Dependencies
 Currently using:
 - Flutter SDK
-- (Provider and permission_handler to be added in next step)
+- Provider (^6.0.0) for state management
+- Permission Handler (^10.0.0) for microphone access
