@@ -86,7 +86,7 @@ class BpmCounterHome extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         SizedBox(
-          height: 80, // Fixed height container for BPM and error messages
+          height: 100, // Increased height to accommodate accuracy note
           child: Consumer<BpmProvider>(
             builder: (context, bpmProvider, child) {
               return Column(
@@ -108,6 +108,13 @@ class BpmCounterHome extends StatelessWidget {
                     Text(
                       bpmProvider.errorState!,
                       style: const TextStyle(fontSize: 16, color: Colors.red),
+                    ),
+                  ],
+                  if (bpmProvider.accuracyNote != null) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      bpmProvider.accuracyNote!,
+                      style: const TextStyle(fontSize: 16, color: Colors.orange),
                     ),
                   ],
                 ],

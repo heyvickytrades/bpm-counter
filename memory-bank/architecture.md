@@ -36,10 +36,25 @@ bpm_counter_app/
     - autoModeStatus: Status message for auto mode
     - audioProcessingDuration: Duration (in seconds) for audio processing
     - errorState: Error messages
+    - accuracyNote: User feedback for tap accuracy
+    - resetTimer: Timer for auto-reset functionality
   - Methods:
-    - recordTap(): Records a new tap timestamp
+    - recordTap(): Records a new tap timestamp and triggers BPM calculation
+      - Cancels existing reset timer
+      - Records timestamp and updates count
+      - Starts new 5-second reset timer
     - _calculateBpm(): Calculates BPM based on timestamps with validation
+      - Validates minimum 2 taps required
+      - Calculates BPM using formula: (taps - 1) * 60 / timeSpan
+      - Validates BPM range (40-200)
+      - Updates error state if validation fails
+      - Sets accuracy note based on tap count
     - reset(): Clears all data and resets state
+      - Cancels reset timer
+      - Clears all state properties
+    - dispose(): Cleans up resources
+      - Cancels reset timer
+      - Calls super.dispose()
     - setAudioProcessingDuration(): Updates the audio processing duration
     - setAutoModeStatus(): Updates the auto mode status
     - setError(): Sets or clears error messages
@@ -52,6 +67,8 @@ bpm_counter_app/
     - BPM display with validation
     - Reset functionality
     - Error state display
+    - Real-time BPM updates
+    - Accuracy note display with orange styling
 - `screens/auto_mode_screen.dart`: UI for automatic BPM detection using microphone (to be implemented)
 
 ### Platform-Specific Code
@@ -67,6 +84,7 @@ bpm_counter_app/
 - Reactive updates through ChangeNotifier
 - Encapsulated business logic within provider
 - Proper data validation and error handling
+- Resource cleanup in dispose method
 
 ### UI Architecture
 - Screen-based navigation using TabBar
@@ -84,11 +102,21 @@ bpm_counter_app/
 
 ### Tap Mode (Implemented)
 1. User taps screen → recordTap() is called in BpmProvider
+   - Cancels existing reset timer
+   - Records timestamp and updates count
+   - Starts new 5-second reset timer
 2. Timestamp is recorded and added to tapTimestamps list
 3. _calculateBpm() analyzes timestamps and updates currentBpm
+   - Validates minimum 2 taps
+   - Calculates time span between first and last tap
+   - Applies BPM formula with validation
+   - Updates error state if needed
+   - Sets accuracy note based on tap count
 4. Consumer widgets in the UI update to reflect new state
 5. Validation ensures BPM values are within 40-200 range
 6. Reset functionality clears all state when requested
+   - Manual reset through reset button
+   - Auto-reset after 5 seconds of inactivity
 
 ### Auto Mode (To Be Implemented)
 1. User selects Auto Mode → permission check

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'dart:async';
 
 class BpmProvider extends ChangeNotifier {
   // Properties
@@ -9,6 +10,7 @@ class BpmProvider extends ChangeNotifier {
   int _audioProcessingDuration = 10; // Default 10 seconds
   String? _errorState;
   String? _accuracyNote;
+  Timer? _resetTimer;
 
   // Getters
   List<int> get tapTimestamps => _tapTimestamps;
@@ -21,10 +23,17 @@ class BpmProvider extends ChangeNotifier {
 
   // Methods
   void recordTap() {
+    // Cancel any existing reset timer
+    _resetTimer?.cancel();
+    
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     _tapTimestamps.add(timestamp);
     _tapCount++;
     _calculateBpm();
+    
+    // Start a new reset timer
+    _resetTimer = Timer(const Duration(seconds: 5), reset);
+    
     notifyListeners();
   }
 
@@ -42,17 +51,25 @@ class BpmProvider extends ChangeNotifier {
     if (calculatedBpm < 40 || calculatedBpm > 200) {
       _currentBpm = null;
       _errorState = 'BPM out of valid range (40-200)';
+      _accuracyNote = null;
       return;
     }
 
     _currentBpm = calculatedBpm;
     _errorState = null;
     
-    // Remove accuracy notes altogether
-    _accuracyNote = null;
+    // Set accuracy note based on tap count
+    _accuracyNote = _tapCount < 5 ? 'More taps needed for accuracy' : null;
+  }
+
+  @override
+  void dispose() {
+    _resetTimer?.cancel();
+    super.dispose();
   }
 
   void reset() {
+    _resetTimer?.cancel();
     _tapTimestamps.clear();
     _currentBpm = null;
     _tapCount = 0;

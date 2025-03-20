@@ -32,6 +32,37 @@
 - Removed accuracy notes for better UX
 - Tested on both iOS and Android
 
+## Step 6: Tap Detection and Timestamp Recording ✅
+- Implemented tap detection in UI
+- Added timestamp recording in BpmProvider
+- Integrated with Provider state management
+- Verified tap count updates correctly
+- Tested on both iOS and Android
+
+## Step 7: BPM Calculation in Tap Mode ✅
+- Implemented BPM calculation formula
+- Added validation for minimum 2 taps
+- Added BPM range validation (40-200)
+- Implemented error state handling
+- Tested with various tap patterns
+- Verified BPM updates correctly
+
+## Step 8: Accuracy Note Logic ✅
+- Added accuracy note property to BpmProvider
+- Implemented note display logic (shows when taps < 5)
+- Added UI component to display the note
+- Styled note with orange color for visibility
+- Tested note appearance and disappearance
+- Verified note clears after 5 taps
+
+## Step 9: Reset Functionality ✅
+- Added auto-reset timer after 5 seconds of inactivity
+- Implemented timer cleanup in dispose method
+- Added timer cancellation in reset method
+- Verified manual reset functionality
+- Tested auto-reset behavior
+- Ensured proper cleanup of resources
+
 ## Next Steps
 1. Implement Auto Mode functionality
 2. Add microphone access and permissions
@@ -46,3 +77,6 @@
 - State management implemented and tested
 - Main UI implemented with platform-specific elements
 - Tap Mode fully functional with stable UI
+- BPM calculation accurate and validated
+- Accuracy notes implemented for better user feedback
+- Auto-reset functionality added for better UX
