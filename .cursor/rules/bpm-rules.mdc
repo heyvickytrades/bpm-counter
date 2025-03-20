@@ -1,0 +1,23 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+
+1. **Performance Optimization**  
+    Always prioritize performance in game development. Use efficient data structures (e.g., Lists or Maps over excessive object creation), minimize unnecessary computations (e.g., avoid redundant loops), preload assets (e.g., images, sounds) to reduce runtime lag, and optimize rendering pipelines by leveraging Flutter’s widget tree efficiently.  
+2. **Modular Code Structure**  
+    Structure the codebase into modular components. Each feature, system, or game mechanic (e.g., player controls, physics, UI) should reside in its own file or directory (e.g., lib/systems/player.dart, lib/ui/hud.dart) to avoid a monolithic structure like a single giant file that becomes unmanageable.  
+3. **Cross-Platform Compatibility**  
+    Leverage Flutter’s cross-platform capabilities to ensure seamless performance on both iOS and Android. Write platform-agnostic code where possible, use conditional logic for platform-specific needs (e.g., Platform.isIOS), and test across multiple devices to confirm compatibility.  
+4. **Dart Best Practices**  
+    Adhere to Dart’s best practices. Use const constructors for immutable widgets to improve performance, avoid deprecated APIs (e.g., check Dart’s official documentation for updates), and utilize modern language features like null safety and extension methods to write clean, safe code.  
+5. **Efficient and Secure Networking**  
+    Implement networking with efficiency and security in mind, crucial for multiplayer games. Use appropriate protocols (e.g., WebSockets via web\_socket\_channel for real-time interactions), handle errors gracefully with try-catch blocks, and secure data transmission with encryption (e.g., HTTPS or custom protocols).  
+6. **Comprehensive Testing**  
+    Write comprehensive tests to ensure game reliability. Include unit tests for individual components (e.g., game logic in test/logic\_test.dart), integration tests for system interactions (e.g., state and rendering), and UI tests using Flutter’s flutter\_test package to validate user interactions.  
+7. **Clean and Documented Code**  
+    Maintain a consistent code style across the project. Use meaningful variable names (e.g., playerSpeed instead of x), add comments to explain complex game logic (e.g., collision detection algorithms), and keep functions short and focused (e.g., separate input handling from rendering).  
+8. **Effective Version Control**  
+    Use version control effectively to manage the codebase. Commit changes frequently with descriptive messages (e.g., “Added enemy AI state machine”), use branches for new features or bug fixes (e.g., feature/multiplayer), and keep the main branch stable and deployable.
+
